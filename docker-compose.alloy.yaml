@@ -1,0 +1,17 @@
+services:
+  wisp:
+    image: node:20-bookworm-slim
+    working_dir: /workspace
+    network_mode: host
+    volumes:
+      - .:/workspace
+      - wisp_node_modules:/workspace/node_modules
+    environment:
+      HOST: 0.0.0.0
+      PORT: "5001"
+      IS_ALLOY: ${IS_ALLOY:-false}
+    command: bash -lc "npm ci --omit=dev && node server.js"
+    restart: unless-stopped
+
+volumes:
+  wisp_node_modules:
